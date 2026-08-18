@@ -55,7 +55,7 @@ public class AdminController {
                         )
                 );
 
-       \
+       
         message.setQuestion(newMessage.getQuestion());
 
    
