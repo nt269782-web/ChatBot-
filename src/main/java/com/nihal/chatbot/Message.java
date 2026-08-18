@@ -13,8 +13,11 @@ public class Message {
     @Column(nullable = false)
     private String question;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String answer;
+
+    @Column(nullable = false)
+    private String status;
 
     public Message() {
     }
@@ -41,5 +44,13 @@ public class Message {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
