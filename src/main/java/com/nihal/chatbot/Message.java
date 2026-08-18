@@ -16,7 +16,7 @@ public class Message {
     @Column(columnDefinition = "TEXT")
     private String answer;
 
-    @Column(nullable = false)
+    @Column
     private String status;
 
     public Message() {
