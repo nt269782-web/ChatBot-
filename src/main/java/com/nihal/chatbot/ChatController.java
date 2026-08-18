@@ -1,10 +1,6 @@
 package com.nihal.chatbot;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
@@ -17,41 +13,34 @@ public class ChatController {
         this.repository = repository;
     }
 
-
     @PostMapping("/chat")
     public Map<String, String> chat(
             @RequestBody Map<String, String> request) {
 
         String userMessage = request.get("message");
 
-        
         if (userMessage == null || userMessage.trim().isEmpty()) {
-
             return Map.of(
-                    "reply",
-                    "Please kuch message likho."
+                "reply",
+                "Please kuch message likho."
             );
         }
 
         String question = userMessage.trim();
 
-       
         Message message =
                 repository.findByQuestionIgnoreCase(question);
 
-       
         if (message != null) {
-
             return Map.of(
-                    "reply",
-                    message.getAnswer()
+                "reply",
+                message.getAnswer()
             );
         }
 
-        
         return Map.of(
-                "reply",
-                "Sorry, mujhe iska answer nahi pata."
+            "reply",
+            "Sorry, mujhe iska answer nahi pata."
         );
     }
 }
