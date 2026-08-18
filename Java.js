@@ -1,10 +1,5 @@
 const BACKEND_URL = "https://chatbot-4-0iew.onrender.com";
 
-
-// ========================================
-// SEND MESSAGE
-// ========================================
-
 async function sendMessage() {
 
     const input = document.getElementById("userInput");
@@ -22,58 +17,38 @@ async function sendMessage() {
 
     try {
 
-
-
+       
         addMessage(message, "user");
 
+        
         input.value = "";
 
-
-
-
-        const response = await fetch(
-            `${BACKEND_URL}/chat`,
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-
-                body: JSON.stringify({
-                    message: message
-                })
-            }
-        );
-
-
-    
+       
+        const response = await fetch(`${BACKEND_URL}/chat`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                message: message
+            })
+        });
 
         if (!response.ok) {
-
-            throw new Error(
-                `Backend error: HTTP ${response.status}`
-            );
+            throw new Error(`HTTP ${response.status}`);
         }
-
-
-     
 
         const data = await response.json();
 
         console.log("CHAT RESPONSE:", data);
 
-
-
-
+        
         const reply =
             data.reply ||
             "Sorry, mujhe iska answer nahi pata.";
 
-
         addMessage(reply, "bot");
-
 
     } catch (error) {
 
