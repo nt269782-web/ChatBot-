@@ -15,16 +15,24 @@ public class AdminController {
         this.repository = repository;
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "Chatbot Backend is running!";
+    }
+
     @GetMapping("/all")
     public List<Message> getAll() {
         return repository.findAll();
     }
+
 
     @PostMapping("/save")
     public String save(@RequestBody Message message) {
         repository.save(message);
         return "Question saved successfully";
     }
+
+  
 
     @PutMapping("/update/{id}")
     public String update(
@@ -33,7 +41,7 @@ public class AdminController {
 
         Message message = repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Question not found"));
+                        new RuntimeException("Question not found with id: " + id));
 
         message.setQuestion(newMessage.getQuestion());
         message.setAnswer(newMessage.getAnswer());
@@ -43,8 +51,13 @@ public class AdminController {
         return "Question updated successfully";
     }
 
+
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
+
+        if (!repository.existsById(id)) {
+            return "Question not found with id: " + id;
+        }
 
         repository.deleteById(id);
 
