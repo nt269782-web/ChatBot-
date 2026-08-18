@@ -15,27 +15,34 @@ public class AdminController {
         this.repository = repository;
     }
 
-
+   
     @GetMapping("/")
     public String home() {
         return "Admin API is running!";
     }
 
+   
     @GetMapping("/all")
     public List<Message> getAll() {
         return repository.findAll();
     }
 
-
+   
     @PostMapping("/save")
     public String save(@RequestBody Message message) {
+
+        if (message.getStatus() == null ||
+                message.getStatus().trim().isEmpty()) {
+
+            message.setStatus("ACTIVE");
+        }
 
         repository.save(message);
 
         return "Question saved successfully";
     }
 
-
+ 
     @PutMapping("/update/{id}")
     public String update(
             @PathVariable Integer id,
@@ -48,14 +55,29 @@ public class AdminController {
                         )
                 );
 
+       \
         message.setQuestion(newMessage.getQuestion());
+
+   
         message.setAnswer(newMessage.getAnswer());
+
+       
+        if (newMessage.getAnswer() != null &&
+                !newMessage.getAnswer().trim().isEmpty()) {
+
+            message.setStatus("ACTIVE");
+
+        } else {
+
+            message.setStatus("PENDING");
+        }
 
         repository.save(message);
 
         return "Question updated successfully";
     }
 
+   
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
 
