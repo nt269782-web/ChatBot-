@@ -1,53 +1,79 @@
-const chatBox = document.getElementById("chatBox");
-const userInput = document.getElementById("userInput");
 
-function addMessage(text, type) {
-    const message = document.createElement("div");
-    message.className = `message ${type}`;
 
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    bubble.textContent = text;
+const BACKEND_URL = "https://chatbot-4-0iew.onrender.com";
 
-    message.appendChild(bubble);
-    chatBox.appendChild(message);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
+
 
 async function sendMessage() {
-    const text = userInput.value.trim();
-    if (!text) return;
 
-    addMessage(text, "user");
-    userInput.value = "";
-    userInput.disabled = true;
+    const input = document.getElementById("userInput");
+    const message = input.value.trim();
+
+    if (!message) {
+        return;
+    }
 
     try {
-        const response = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text })
-        });
+
+      
+        addMessage(message, "user");
+
+
+        input.value = "";
+
+        
+        const response = await fetch(
+            `${BACKEND_URL}/chat`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: message
+                })
+            }
+        );
+
+        // Response check
+        if (!response.ok) {
+
+            throw new Error(
+                `Backend error: HTTP ${response.status}`
+            );
+        }
 
         const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.error || data.message || `HTTP ${response.status}`);
+        console.log("CHAT RESPONSE:", data);
+
+
+       
+        if (typeof data === "string") {
+
+            addMessage(data, "bot");
+
+        } else {
+
+            addMessage(
+                data.answer ||
+                data.message ||
+                data.response ||
+                "Sorry, mujhe iska answer nahi pata.",
+                "bot"
+            );
         }
 
-        addMessage(data.reply || "No reply received.", "bot");
+
     } catch (error) {
+
         console.error("CHAT ERROR:", error);
-        addMessage("Backend se connection nahi ho pa raha. Please try again.", "bot");
-    } finally {
-        userInput.disabled = false;
-        userInput.focus();
+
+        addMessage(
+            "Backend se connection nahi ho pa raha. Please try again.",
+            "bot"
+        );
     }
 }
-
-userInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        sendMessage();
-    }
-});
