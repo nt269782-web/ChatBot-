@@ -1,12 +1,19 @@
-
-
 const BACKEND_URL = "https://chatbot-4-0iew.onrender.com";
 
 
+// ========================================
+// SEND MESSAGE
+// ========================================
 
 async function sendMessage() {
 
     const input = document.getElementById("userInput");
+
+    if (!input) {
+        console.error("userInput element not found.");
+        return;
+    }
+
     const message = input.value.trim();
 
     if (!message) {
@@ -15,20 +22,23 @@ async function sendMessage() {
 
     try {
 
-      
-        addMessage(message, "user");
 
+
+        addMessage(message, "user");
 
         input.value = "";
 
-        
+
+
+
         const response = await fetch(
             `${BACKEND_URL}/chat`,
             {
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
                 },
 
                 body: JSON.stringify({
@@ -37,7 +47,9 @@ async function sendMessage() {
             }
         );
 
-        // Response check
+
+    
+
         if (!response.ok) {
 
             throw new Error(
@@ -45,26 +57,22 @@ async function sendMessage() {
             );
         }
 
+
+     
+
         const data = await response.json();
 
         console.log("CHAT RESPONSE:", data);
 
 
-       
-        if (typeof data === "string") {
 
-            addMessage(data, "bot");
 
-        } else {
+        const reply =
+            data.reply ||
+            "Sorry, mujhe iska answer nahi pata.";
 
-            addMessage(
-                data.answer ||
-                data.message ||
-                data.response ||
-                "Sorry, mujhe iska answer nahi pata.",
-                "bot"
-            );
-        }
+
+        addMessage(reply, "bot");
 
 
     } catch (error) {
