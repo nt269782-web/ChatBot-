@@ -29,35 +29,40 @@ public class ChatController {
         String question = userMessage.trim();
 
         
-        Message message = repository.findByQuestionIgnoreCase(question);
+        Message message =
+                repository.findByQuestionIgnoreCase(question);
 
-       
+      
         if (message != null) {
 
-            if (message.getAnswer() != null &&
-                    !message.getAnswer().trim().isEmpty()) {
-
+           
+            if ("PENDING".equalsIgnoreCase(message.getStatus())) {
                 return Map.of(
-                        "reply", message.getAnswer()
+                        "reply",
+                        "Sorry, mujhe iska answer abhi nahi pata."
                 );
             }
 
+         
             return Map.of(
-                    "reply", "Sorry, mujhe iska answer nahi pata."
+                    "reply",
+                    message.getAnswer()
             );
         }
 
-        
+
         Message pendingMessage = new Message();
 
         pendingMessage.setQuestion(question);
-        pendingMessage.setAnswer(null);
+        pendingMessage.setAnswer("");
         pendingMessage.setStatus("PENDING");
 
         repository.save(pendingMessage);
 
+    
         return Map.of(
-                "reply", "Sorry, mujhe iska answer nahi pata."
+                "reply",
+                "Sorry, mujhe iska answer nahi pata."
         );
     }
 }
