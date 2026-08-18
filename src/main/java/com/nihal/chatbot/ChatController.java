@@ -20,9 +20,11 @@ public class ChatController {
 
         String userMessage = request.get("message");
 
+     
         if (userMessage == null || userMessage.trim().isEmpty()) {
             return Map.of(
-                    "reply", "Please kuch message likho."
+                    "reply",
+                    "Please kuch message likho."
             );
         }
 
@@ -32,25 +34,31 @@ public class ChatController {
         Message message =
                 repository.findByQuestionIgnoreCase(question);
 
-      
+     
         if (message != null) {
 
-           
-            if ("PENDING".equalsIgnoreCase(message.getStatus())) {
+            String answer = message.getAnswer();
+            String status = message.getStatus();
+
+            
+            if ("PENDING".equalsIgnoreCase(status)
+                    || answer == null
+                    || answer.trim().isEmpty()) {
+
                 return Map.of(
                         "reply",
-                        "Sorry, mujhe iska answer abhi nahi pata."
+                        "Sorry, mujhe iska answer nahi pata."
                 );
             }
 
-         
+            
             return Map.of(
                     "reply",
-                    message.getAnswer()
+                    answer
             );
         }
 
-
+   
         Message pendingMessage = new Message();
 
         pendingMessage.setQuestion(question);
@@ -59,7 +67,7 @@ public class ChatController {
 
         repository.save(pendingMessage);
 
-    
+      
         return Map.of(
                 "reply",
                 "Sorry, mujhe iska answer nahi pata."
