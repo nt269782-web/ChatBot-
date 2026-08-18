@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        box-sizing:border-box;
+        font-family:Arial,sans-serif;
+        }
+        
+        body{
+            background: #eceff1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            width: 420px;
+            height: 700px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background:#322b2b;
+            border-radius:15px;
+            box-shadow:0 0 15px rgba(0,0,0,.2);
+            
+            
+        }
+        .header{
+            position: relative;
+            height: 90px;
+            background: #c9c329;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+        .chat-box{
+            flex: 1;
+            overflow: auto;
+            padding: 15px;
+            background: #443ca2;
+            
+          
+            
+        }
+        .message{
+            display: flex;
+            margin: 12px 0;
+            
+        }
+        .bot{
+            justify-content: flex-start;
+        }
+        
+        .user{
+            justify-content: flex-end;
+        }
+        
+        
+        
+        .bubble{
+            max-width: 75%;
+            padding: 12px;
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .bot .bubble{
+            background:#e5e7eb;
+            color:#000;
+        }
+
+        .user .bubble{
+            background:#2563eb;
+            color:#fff;
+        }
+        
+        .input-area{
+            display:flex;
+            border-top:1px solid #ddd;
+        }
+        input{
+            flex: 1;
+            border: none;
+            padding: 15px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        button{
+            width:90px;
+            border:none;
+            background:#2563eb;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+        }
+        
+        button:hover{
+            background:#1d4ed8;
+        }
+        .logo{
+            position: absolute;
+            left: 20px;
+            width: 55px;
+            height: 55px;
+        }
+
+        .header h1{
+            margin: 0;
+            font-size: 21px;
+        }
+            
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        
+        <div class="header">
+        <img src="ChatGPT_Image_Jul_11__2026__11_10_18_PM-removebg-preview.png"  class="logo">
+                <h1>My ChatBot</h1>
+            </div>
+        
+        
+        <div class="chat-box" id="chatBox">
+            <div class="message bot">
+                <div class="bubble">
+                    Hello <br>
+                    How Can I help you ?
+                    
+                </div>
+            </div>
+        </div>
+        
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type Your Message">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+        
+    
+    
+    
+    <script src="Java.js"></script>
+</div>
+</body>
+</html>
