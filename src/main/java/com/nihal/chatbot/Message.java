@@ -10,8 +10,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private String question;
+    @Column
+    private String status;
 
     @Column(columnDefinition = "TEXT")
     private String answer;
