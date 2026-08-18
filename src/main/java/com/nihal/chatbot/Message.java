@@ -10,8 +10,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
-    private String status;
+    @Column(nullable = false)
+    private String question;
 
     @Column(columnDefinition = "TEXT")
     private String answer;
@@ -22,6 +22,7 @@ public class Message {
     public Message() {
     }
 
+    
     public Integer getId() {
         return id;
     }
@@ -30,6 +31,7 @@ public class Message {
         this.id = id;
     }
 
+    
     public String getQuestion() {
         return question;
     }
@@ -38,6 +40,7 @@ public class Message {
         this.question = question;
     }
 
+   
     public String getAnswer() {
         return answer;
     }
@@ -46,6 +49,7 @@ public class Message {
         this.answer = answer;
     }
 
+    
     public String getStatus() {
         return status;
     }
