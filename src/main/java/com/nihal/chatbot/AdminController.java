@@ -21,15 +21,15 @@ public class AdminController {
         return "Admin API is running!";
     }
 
-   
+ 
     @GetMapping("/all")
     public List<Message> getAll() {
         return repository.findAll();
     }
 
-   
+    
     @PostMapping("/save")
-    public String save(@RequestBody Message message) {
+    public Message save(@RequestBody Message message) {
 
         if (message.getStatus() == null ||
                 message.getStatus().trim().isEmpty()) {
@@ -37,14 +37,12 @@ public class AdminController {
             message.setStatus("ACTIVE");
         }
 
-        repository.save(message);
-
-        return "Question saved successfully";
+        return repository.save(message);
     }
 
- 
+    
     @PutMapping("/update/{id}")
-    public String update(
+    public Message update(
             @PathVariable Integer id,
             @RequestBody Message newMessage) {
 
@@ -55,13 +53,10 @@ public class AdminController {
                         )
                 );
 
-       
         message.setQuestion(newMessage.getQuestion());
-
-   
         message.setAnswer(newMessage.getAnswer());
 
-       
+      
         if (newMessage.getAnswer() != null &&
                 !newMessage.getAnswer().trim().isEmpty()) {
 
@@ -69,20 +64,18 @@ public class AdminController {
 
         } else {
 
+            
             message.setStatus("PENDING");
         }
 
-        repository.save(message);
-
-        return "Question updated successfully";
+        return repository.save(message);
     }
 
-   
+    
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
 
         if (!repository.existsById(id)) {
-
             return "Question not found with id: " + id;
         }
 
